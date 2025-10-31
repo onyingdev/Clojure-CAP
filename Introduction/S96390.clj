@@ -40,6 +40,19 @@
                 (aux (rest arr) (+ total (first arr)) (inc count))))] 
             (aux n 0 0))))
 
+;using loop and recur
+(defn average2 [n]
+    (loop [n n total 0 count 0]
+        (if (empty? n)
+            (if (= count 0)
+                0
+                (/ total count))
+            (recur (rest n) (+ total (first n)) (inc count)))))
+
+
+
+; ----------------------------- LEARNING CODE -----------------------------
+
 (defn sum [n]
     (if (empty? n)
         0
@@ -50,12 +63,3 @@
         (if (= num 0)
             0
             (/ (sum n) num))))
-
-;using loop and recur
-(defn average2 [n]
-    (loop [n n total 0 count 0]
-        (if (empty? n)
-            (if (= count 0)
-                0
-                (/ total count))
-            (recur (rest n) (+ total (first n)) (inc count)))))

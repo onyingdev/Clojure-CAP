@@ -1,3 +1,5 @@
+; warning some part of these codes are wrong
+
 (defn abs-value [x]
   (if (>= x 0)
     x
@@ -26,3 +28,6 @@
     (if (= (mod (factorial (- p 1)) p) (mod -1 p))
       true
       false)))
+
+
+; ----------------------------- LEARNING CODE -----------------------------
