@@ -43,6 +43,7 @@
 ; ----------------------------- LEARNING CODE -----------------------------
 
 ; take while version, this version will stop the moment theres an odd on the list
+; does not work
 (defn prod-of-evens-tw [n]
     (reduce * (take-while even? n)))
 
