@@ -8,6 +8,8 @@
 (defn prod-of-evens [n]
     (reduce * (filter even? n)))
 
+
+
 ; ----------------------------- LEARNING CODE -----------------------------
 
 ; take while version, this version will stop the moment theres an odd on the list
