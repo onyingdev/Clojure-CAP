@@ -43,6 +43,7 @@
 ; reduce will only recur with acc and iterate throu x
 ; this case we needed lists so we can convert vectors as lists
 
+
 (defn number-in [x lst]
     (some #(= x %) lst))
 
@@ -54,3 +55,7 @@
     '() x)))
 
 ; ----------------------------- LEARNING CODE -----------------------------
+
+; juxt version, so much easier
+(defn odds-n-evens-juxt [n]
+    ((juxt (partial filter odd?) (partial filter even?)) n))
