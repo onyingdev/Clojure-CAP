@@ -49,3 +49,7 @@
 ; enter lst as {} no []
 (defn preu [lst] (let [{quantitat :quantitat preu-unitari :preu-unitari} lst]
     (* quantitat preu-unitari)))
+
+
+
+
