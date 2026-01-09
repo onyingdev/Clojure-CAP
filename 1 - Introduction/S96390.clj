@@ -1,10 +1,10 @@
-(defn my-count1 [x]
-    (if (empty? x)
+(defn my-count1 [x] ;defn name of function [param1 param 2 etc ..]
+    (if (empty? x) ;(f (g x) i j) f is a function that validates if its true or false, g returns true or false depending on x
       0
       (inc (my-count1 (rest x)))))  ;return the increment of whatever result it has 
 
 (defn my-count2 [x]
-  (loop [it 0 list x] 
+  (loop [it 0 list x] ; (loop [var1 value var2 value] ((f x) (recur (var1mod) (var2mod))))
     (if (empty? list)
       it
       (recur (inc it) (rest list)))))
