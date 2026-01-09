@@ -16,17 +16,74 @@
 '()
 (def x ("a" "b" 2 3 4)) ; wrong
 (def x '("a" "b" 2 3 4)) ; ok x = ("a" "b" 2 3 4) 
+; list can have operations too, see below
+
+
+; conditionals
+(if boolean-expression
+    true-case
+    false-case)
+(when bool-expression
+    true-case)
+(cond  ; this is a more general case 
+    bool-expr case
+    bool-expr case
+    ...
+    bool-expr case)
+
+
+; anonimous functions, you gonna see this very regularly
+(fn [parameters1 param2 ...] (expression-body))
+(def valor_absolut (fn [x] ((if (> x 0) + -) x))) ; we are binding 'valor_absolut' with fn 
+(def valor_absolut #((if (> % 0) + -) %) ) ; same thing, # for short, also has more aura. use %1, %2 ... %n to indicate paramters. %& for sequential input
+; defn is macro to do the same shit but we skip extra lines 
+(defn nom-de-funció "Comemnt" [p1 p2 ... pN]   expr1 ... exprM )
+(defn valor_absolut "Calcula |x|" [x] ((if (> x 0) + -) x)) ; same thing
+; we can use to define diferent input parameters too, for instance we want different result for 1 param but another for 2 params.
+(defn producte
+   "Retorna 1, el paràmetre o el producte depenent del nombre de paràmetres"
+   ([] 1) ; no params
+   ([x] x) ; 1 param
+   ([x y] (* x y)) ; 2 params
+   ([x y & things] things)) ; 2 params and infinite sequence (& things)
+
+
+; evaluates expressions sequentially, thats it. the last one is the return. so is implicit pretty much in all the body of every function
+(do 
+   (println "Efecte colateral: escrivim un missatge") ;; S'escriu el missatge
+   (* 5 4 3 2 1)                      ;; Aquest valor, 120, es perd 
+   (quot 343 5))                      ;; Aquest valor és el retorn del do
 
 
 
+; let
+; alright another common special form, basically binds stuff locally
+; very useful for temporal data
+(let [s1 ex1  s2 ex2 ... sN exN]   expr1 ... exprM )
+(let [num1 1 num2 2 num3 3] 
+    (+ num1 num2 num3)) ; note that we can obviously use the local binds inside the body of let
+    ; we can still use value from outside the let. thats cool.
+(defn f [x] (let [num1 1 num2 2 num3 3] 
+    (+ num1 num2 num3 x)))
+
+
+; how to call auxiliar function? 
+(defn smaller? [x y] (if (< x y) ; say we have this that evaluates if x < y
+    true
+    false))  
+(defn f [x y] (if (smaller? x y) ; basicaly do this, remember to match the param number, dumbass.
+    (+ x y)
+    (- x y)))
 
 
 
-
-
-
-
-
+; letfn
+; same thing with let, but guess what we can do functions too
+; i got kinda lazy writing down this stuff so fk u.
+(letfn [(name1 [args] body)
+        (name2 [args] body)]
+  ;; body where both name1 and name2 are available
+  (name1 ...))
 
 
 
@@ -122,6 +179,7 @@ for : List comprehension (generates a sequence, not a for-loop).
 dotimes : Executes a body N times.
 while : Repeats body while a condition is true (requires side effects).
 
+;list operations
 cons : Adds an item to the front of a sequence.
 conj : Adds an item to a collection in the most efficient way (front for list, back for vector).
 first : Returns the first item.
@@ -133,6 +191,10 @@ dissoc : Remove a key from a map.
 count : Returns the number of items.
 empty? : Returns true if the collection has no items.
 contains? : Checks if a key (or index) exists in a collection.
+peek
+pop
+list : makes a list
+list?
 
 union : Merges two sets.
 intersection : Returns elements present in both sets.
