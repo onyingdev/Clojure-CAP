@@ -66,6 +66,23 @@
 (defn f [x] (let [num1 1 num2 2 num3 3] 
     (+ num1 num2 num3 x)))
 
+; let can also be used to deconstruct, very important. This is called Destructuring
+; for instance, we want to destructure the vector into separate elements
+(def vct [1 2 3 4 5])
+(let [[head & tail] vct]
+  (println head) ;; 1
+  (println tail)) ;; (2 3 4 5)
+; for complex destructuring
+(def user-data
+  {:name "Neo"
+   :stats {:health 100 :mana 50}
+   :inventory ["Red Pill" "Blue Pill"]})
+
+(let [{:keys [name] {:keys [health]} :stats [item1] :inventory} user-data]
+       (println name "has" health "HP and chose the" item1))
+
+
+
 
 ; how to call auxiliar function? 
 (defn smaller? [x y] (if (< x y) ; say we have this that evaluates if x < y
@@ -154,6 +171,74 @@
 (b :do1) ; "parent-do1"
 
 
+
+; divide and conquer
+(def solucio (dIv trivial directe dividir vencer))
+; trivial function that detects base case
+; directe function to apply to base case
+; dividir divide the in case we are not in base case
+; vencer action to compose the subproblems, merge them together
+
+
+; define initial stack, initial state
+(defn initialNQ [n]  ;; columna 1, solució parcial buida []
+  [1 n []])
+; objective goal function, the goal check
+(defn objNQ [[c n psol]]  ;; acabem quan la columna a considerar c > n
+  (> c n)) ; if c > n means we already check every column
+; main function
+(defn succNQ [[c n psol]]  ;; donats una columna, n i una solució parcial, teh current state
+  (letfn [(valid [psol [c r]] ; checks candidate queen vs all previous queens
+            (letfn [(test [[c' r']]
+                      (and (not= (+ c' r') (+ c r)) ; check diagonal
+                           (not= (- c' r') (- c r)) ; check diagona;
+                           (not= r' r)))] ; check row
+              (every? identity (map test psol))))] ; returns a list of boolean if one is false throws false
+    (for [r (range 1 (inc n)) :when (valid psol [c r])] ; c and psol comes from the beginning (on top), r is initialized here
+      [(inc c) n (conj psol [c r])]))) ; returns this at success! ej [3 4 [[1 3] [2 1]]]
+
+; backtrack main schema
+(defn bTck [succ obj]   
+  (letfn [(bTck' [v]
+            (cond
+              (empty? v)     []
+              (obj (peek v)) (conj (bTck' (pop v)) (peek v))
+              :else          (let [x (peek v)]
+                               (recur (foldr (flip conj) (pop v) (succ x))))))]
+    (fn [inicial]
+      (bTck' [inicial]))))
+
+(defn solucio-NReines [n]
+  (let [[[_ _ s] & cua] ((bTck succNQ objNQ) (initialNQ n))]
+    s))
+(defn nombre-solucions-NReines [n]
+  (count ((bTck succNQ objNQ) (initialNQ n))))
+; i genuienly have no idea how this works
+
+
+
+
+
+
+
+
+
+
+; custom foldr and foldl functions
+(defn foldl [f x0 s]
+  (if (empty? s) x0
+      (let [[cap & cua] s]
+        (recur f (f x0 cap) cua))))
+
+(defn foldr [f x0 s]
+    (if (empty? s) x0
+        (let [[cap & cua] s]
+            (f cap (foldr f x0 cua)))))
+
+; custom flip
+(defn flip [f]
+  (fn [& xs]
+    (apply f (reverse xs))))
 
 
 
