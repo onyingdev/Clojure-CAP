@@ -93,15 +93,65 @@
 
 
 
+; closure, my god my head, aaaaah
+; this is basically the schema for multiarity closure functions
+; remember its basically a function that returns a function with a predefined local environment
+; the first function is used as an "initializer" the second one is the one that its actually called
+(defn make-closure []
+  (fn 
+    ;; Arity 0: No parameters
+    ([] 
+      (println "Default behavior"))
+    
+    ;; Arity 1: One parameter
+    ([x] 
+      (println "You passed:" x))))
+
+;another implementation of closures are state machines, very cool, very common and a lot of headache
+(defn machine-builder [config-params]         ;; LAYER 1: Configuration
+  (letfn [(state-holder [current-state]       ;; LAYER 2: State Memory
+            
+            (letfn [(input-handler [input]    ;; LAYER 3: Action / Transition
+                      
+                      (if (stop-condition? input)
+                        ;; CASE A: Stop and return final result
+                        current-state
+                        
+                        ;; CASE B: Calculate new state and RECURSE
+                        (let [next-state (calculate current-state input)]
+                          (state-holder next-state))))]
+              
+              ;; Return the input handler to the user
+              input-handler))]
+
+    ;; Initialize the machine with starting state
+    (state-holder initial-value)))
 
 
 
+(def a (animal)) ; return grr
+(def g (gat (animal))) ; return gat
 
 
+; closures can also implement class and subclass
+(defn parent-class []
+  (fn [func]
+    (cond ; this defines a similar thing to class function in python
+      (= func :do1) "parent-do1"
+      (= func :do2) "parent-do2"
+      (= func :do3) "parent-do3"
+      :else nil)))
+; subclass
+(defn subclass [parent]
+    (fn [func]
+        (cond
+            (= func :do1) "subclass-do1" ; this one overrides the parent class for own
+            :else (parent func)))) ; the rest uses the parent
 
-
-
-
+(def a (parent-class)) ; a is the parent
+(def b (subclass (parent-class))) ; b is the sub
+(a :do1) ; "subclass-do1"
+(b :do1) ; "parent-do1"
 
 
 
