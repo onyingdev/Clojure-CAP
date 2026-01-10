@@ -87,7 +87,9 @@
 
 
 
-
+; how to input arrays
+(f [1 2 3 4] [1 2 3 4])
+(defn [v1 v2] (...))
 
 
 
@@ -117,6 +119,8 @@ inc : Increments a number by 1.
 dec : Decrements a number by 1.
 max : Returns the greatest number in a set.
 min : Returns the smallest number in a set.
+map: automatically maps variables from a map or list ; very useful for iteration
+reduce : basically applys for all the sequence, reduces using a function ; very useful
 
 = : Returns true if values are equal (value equality).
 == : Returns true if numbers are equal, ignoring type (e.g., 1 vs 1.0).
@@ -154,6 +158,7 @@ bit-test : Checks if a specific bit is set.
 #' (Var) : Gets the Var object itself, not its value.
 -> (Thread-first) : Pipes result of previous form as first arg of next.
 ->> (Thread-last) : Pipes result of previous form as last arg of next.
+&
 
 def : Defines a global variable (Var).
 if : Conditional branch (checks if truthy or falsey).
