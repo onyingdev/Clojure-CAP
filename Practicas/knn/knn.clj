@@ -1,3 +1,6 @@
+; VORASAK ONYING
+; SANTIAGO VILCACUNDO
+
 (ns knn)
 
 ; create distance functions
@@ -25,3 +28,19 @@
     (if (not= (count vx) (count vy))
         false
        (/ (reduce + (map #(if (= %1 %2) 0 1) vx vy)) (count vx))))
+
+
+; main function
+
+; knn enters a distance function and a vector of maps, returns a function
+; the return function that enters a vector
+; fdist returns the distance between 2 vectors
+; plants is a vector of maps, with :y being the name of the plant and :x the value of the vector
+; first get the minimum distance with all plants, then obtain the name of the plant.
+; map applying for all plant outer get minimum
+; apply first class in order to return a function
+(defn knn [fdist plants] 
+    (fn [p] ; p is the new plant to classify
+        (:y (apply min-key #(fdist (:x %) p) plants))))
+
+; apply is very similar to map, it apply the function over a given list
