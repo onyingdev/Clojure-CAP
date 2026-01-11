@@ -1,6 +1,7 @@
 ; VORASAK ONYING
 ; SANTIAGO VILCACUNDO
 
+; NEED CORRECTION
 ; cavall
 
 ; we know that the table is a predefined 8x8

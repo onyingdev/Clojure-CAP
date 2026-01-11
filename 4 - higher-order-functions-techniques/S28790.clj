@@ -1,4 +1,6 @@
 ; parenthesis, ah this one is fun
+; INCOMPLETE
+
 ; the conditions are: we cannot have more closed parenthesis than opend parenthesis.
 ; to do that we count, add one for every opened and substract for each closed, this checks the correct amount.
 ; the MOST IMPORTANT part is that in any given moment the number can be negative. this checks the parenthesis are closed properly
