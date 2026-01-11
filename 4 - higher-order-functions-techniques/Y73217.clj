@@ -1,9 +1,12 @@
 ; dicotomic search
 
+; NOTE: I believe theres a bug or something, it doesnt return true on Jutge, which is very odd.
+
+; version using auxiliar
 ;split middle auxiliar function
-(defn split-half [v]
-  (let [mid (quot (count v) 2)] ;; Integer division (e.g., 5/2 = 2)
-    (split-at mid v)))
+;; (defn split-half [v]
+;;   (let [mid (quot (count v) 2)] ;; Integer division (e.g., 5/2 = 2)
+;;     (split-at mid v)))
 
 ;base case, returns true or false
 ; buit o 1 o 2, 2 because the first element is the source
@@ -20,14 +23,29 @@
                 false))))
 
 ; returns 2 halfs, treated
+;; (defn dividir
+;;   "vct té més d'un element"
+;;   [vct]
+;;   (let [[x & rstv] vct ; let is similar to do ;; el pivot serà el prier element del vector
+;;         [first-half second-half] (split-half rstv) ; split in the middle, we use destructuring
+;;         first-half (conj first-half x) ; place last element on both, for seaching
+;;         second-half (conj second-half x)]
+;;     [first-half,second-half])) ; first half and second half
+
 (defn dividir
-  "vct té més d'un element"
+  "Splits a vector into two halves and adds the first element (pivot) to both halves."
   [vct]
-  (let [[x & rstv] vct ; let is similar to do ;; el pivot serà el prier element del vector
-        [first-half second-half] (split-half rstv) ; split in the middle, we use destructuring
-        first-half (conj first-half x) ; place last element on both, for seaching
-        second-half (conj second-half x)]
-    [first-half,second-half])) ; first half and second half
+  (let [[x & rstv] vct              ;; 1. Deconstruct: x is head (pivot), rstv is tail
+        mid        (quot (count rstv) 2)
+        [part1 part2] (split-at mid rstv) ;; 2. Split the REST (rstv) in two
+        
+        ;; 3. Add 'x' to both parts.
+        ;; We use (concat ... [x]) to ensure x goes to the END.
+        ;; If we used (conj part1 x), x would attach to the FRONT because part1 is a sequence.
+        first-half  (conj part1 x)
+        second-half (conj part2 x)]
+
+    [first-half second-half]))
 
 ; vencer returns the partial solution, evaluates if its found
 (defn vèncer [vct _ [sol1 sol2]]
